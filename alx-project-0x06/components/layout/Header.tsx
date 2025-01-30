@@ -1,16 +1,30 @@
-import React from 'react';
+import Link from "next/link";
+import Button from "../common/Button";
+import { usePathname } from "next/navigation";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
-const Header = () => {
+const Header: React.FC = () => {
+  const pathname = usePathname();
+  const count = useSelector((state: RootState) => state.counter.value);
+
   return (
-    <header className="bg-blue-500 text-white py-4 px-6 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">ALX Listing App</h1>
-      <nav>
-        <ul className="flex space-x-4">
-          <li><a href="#" className="hover:underline">Home</a></li>
-          <li><a href="#" className="hover:underline">About</a></li>
-          <li><a href="#" className="hover:underline">Contact</a></li>
-        </ul>
-      </nav>
+    <header className="fixed w-full bg-white shadow-md">
+      <div className="container mx-auto flex justify-between items-center py-6 px-4 md:px-8">
+        <Link href="/" className="text-3xl md:text-5xl font-bold text-gray-800 tracking-tight">
+          Splash App
+        </Link>
+        <div className="flex gap-4">
+          {!["/counter-app"].includes(pathname) ? (
+            <>
+              <Button buttonLabel="Sign In" buttonBackgroundColor="red" />
+              <Button buttonLabel="Sign Up" buttonBackgroundColor="blue" />
+            </>
+          ) : (
+            <p className=" font-semibold text-lg">Current count: {count}</p>
+          )}
+        </div>
+      </div>
     </header>
   );
 };
